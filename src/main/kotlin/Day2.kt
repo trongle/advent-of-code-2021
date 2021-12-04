@@ -10,7 +10,7 @@ fun main(args: Array<String>) {
                     "forward" -> position += value
                     "down" -> depth += value
                     "up" -> depth -= value
-                    else -> throw Exception("Invalid command")
+                    else -> throw Exception("Invalid command.")
                 }
             }
             .let { position * depth }
@@ -31,7 +31,7 @@ fun main(args: Array<String>) {
                     }
                     "down" -> aim += value
                     "up" -> aim -= value
-                    else -> throw Exception("Invalid command")
+                    else -> throw Exception("Invalid command.")
                 }
             }
             .let { position * depth }
