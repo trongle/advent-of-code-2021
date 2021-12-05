@@ -1,18 +1,15 @@
-import kotlin.system.exitProcess
-
 fun main(args: Array<String>) {
     val bingoData = readEntireFile("src/main/resources/day_4.txt").split("""\n\n""".toRegex())
     val drawNumbers = bingoData[0].split(",")
-    val boards = bingoData.slice(1 until bingoData.size).map { Board.fromRawBoard(it) }
+    val rawBoards = bingoData.slice(1 until bingoData.size)
 
     fun solvePuzzle1(drawNumbers: List<Int>, boards: List<Board>) {
         drawNumbers.forEach { number ->
             boards.forEachIndexed { index, board ->
                 if (board.check(number)) {
-                    println("Board ${index + 1} won!")
-                    val unmarkedNumbers = board.numbersOnBoard.filterNot { board.numbersFoundOnBoard.contains(it) }
-                    println(unmarkedNumbers.sum() * number)
-                    exitProcess(0)
+                    println("Puzzle 1: Board ${index + 1} won!")
+                    println(board.unmarkedNumbers.sum() * number)
+                    return
                 }
             }
         }
@@ -24,9 +21,8 @@ fun main(args: Array<String>) {
             boards.forEachIndexed { index, board ->
                 if (!boardsWon.contains(index)) {
                     if (board.check(number)) {
-                        println("Board ${index + 1} won!")
-                        val unmarkedNumbers = board.numbersOnBoard.filterNot { board.numbersFoundOnBoard.contains(it) }
-                        println(unmarkedNumbers.sum() * number)
+                        println("Puzzle 2: Board ${index + 1} won!")
+                        println(board.unmarkedNumbers.sum() * number)
                         boardsWon.add(index)
                     }
                 }
@@ -34,8 +30,8 @@ fun main(args: Array<String>) {
         }
     }
 
-    solvePuzzle1(drawNumbers.map { it.toInt() }, boards)
-    solvePuzzle2(drawNumbers.map { it.toInt() }, boards)
+    solvePuzzle1(drawNumbers.map { it.toInt() }, rawBoards.map { Board.fromRawBoard(it) })
+    solvePuzzle2(drawNumbers.map { it.toInt() }, rawBoards.map { Board.fromRawBoard(it) })
 }
 
 data class Board(
@@ -44,7 +40,9 @@ data class Board(
 ) {
     private val unmarkedRows = mutableListOf(5, 5, 5, 5, 5)
     private val unmarkedCols = mutableListOf(5, 5, 5, 5, 5)
-    val numbersFoundOnBoard = mutableListOf<Int>()
+    private val numbersFoundOnBoard = mutableListOf<Int>()
+    val unmarkedNumbers
+        get() = numbersOnBoard.filterNot { numbersFoundOnBoard.contains(it) }
 
     data class Position(val row: Int, val col: Int)
 
