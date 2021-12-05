@@ -23,7 +23,7 @@ fun main(args: Array<String>) {
             }
         }
 
-        return binariesToDecimal(gammaRate) * binariesToDecimal(epsilonRate)
+        return gammaRate.joinToString("").toInt(2) * epsilonRate.joinToString("").toInt(2)
     }
 
     fun solvePuzzle2(input: List<String>): Int {
@@ -45,7 +45,7 @@ fun main(args: Array<String>) {
 
             if (co2GeneratorRating.size > 1) {
                 co2GeneratorRating = co2GeneratorRating
-                    .partition {it[col] == '0'}
+                    .partition { it[col] == '0' }
                     .let { (count0bits, count1bits) ->
                         if (count0bits.size <= count1bits.size) count0bits.toMutableList()
                         else count1bits.toMutableList()
@@ -53,8 +53,7 @@ fun main(args: Array<String>) {
             }
         }
 
-        return binariesToDecimal(oxygenGeneratorRating.first().toList().map { it.toString() }) *
-                binariesToDecimal(co2GeneratorRating.first().toList().map { it.toString() })
+        return oxygenGeneratorRating.first().toInt(2) * co2GeneratorRating.first().toInt(2)
     }
 
     println(solvePuzzle1(input)) // 3847100
