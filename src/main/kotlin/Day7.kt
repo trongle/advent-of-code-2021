@@ -1,29 +1,21 @@
 import kotlin.math.abs
 
 fun main(args: Array<String>) {
-    fun solvePuzzle1(input: String): Int {
+    fun solvePuzzle(input: String, isIncrementFuel: Boolean = false): Int {
         val positions = input.split(",").map { it.toInt() }
         val min = positions.minOf { it }
         val max = positions.maxOf { it }
 
-        return (min..max).minOf { positions.sumOf { y -> abs(y - it) } }
-    }
-
-    fun solvePuzzle2(input: String): Int {
-        val positions = input.split(",").map { it.toInt() }
-        val min = positions.minOf { it }
-        val max = positions.maxOf { it }
-
-        return (min..max).minOf {
-            positions.sumOf { y ->
-                var sum = 0
-                for (i in 1..abs(y - it)) sum += i
-                sum
+        return (min..max).minOf { movingPos ->
+            positions.sumOf { currentPos ->
+                abs(currentPos - movingPos).let {
+                    if (isIncrementFuel) (1..it).sum() else it
+                }
             }
         }
     }
 
     val input = readEntireFile("src/main/resources/day_7.txt")
-    println(solvePuzzle1(input))
-    println(solvePuzzle2(input))
+    println(solvePuzzle(input))//345197
+    println(solvePuzzle(input, true))//96361606
 }
