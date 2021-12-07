@@ -10,7 +10,7 @@ fun main(args: Array<String>) {
 
             (1..8).forEach { timers[it - 1] = timers[it] }
 
-            timers[6] = timers[6].plus(news)
+            timers[6] += news
             timers[8] = news
         }
         return timers.sum()
