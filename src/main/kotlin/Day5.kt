@@ -8,8 +8,9 @@ fun main(args: Array<String>) {
     fun solvePuzzle2(input: List<String>): Int =
         input.map { VentLine.fromRaw(it) }.let { MatrixOfVentLines(it).check(true) }
 
-    println(solvePuzzle1(readFile("src/main/resources/day_5.txt")))
-    println(solvePuzzle2(readFile("src/main/resources/day_5.txt")))
+    val input = readFile("src/main/resources/day_5.txt")
+    println(solvePuzzle1(input))
+    println(solvePuzzle2(input))
 }
 
 data class MatrixOfVentLines(val ventLines: List<VentLine>) {
