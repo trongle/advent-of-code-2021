@@ -30,20 +30,19 @@ fun main(args: Array<String>) {
         val maxX = heightMapPoints.size
         val maxY = heightMapPoints[0].size
 
-        fun basins(x: Int, y: Int): Int = when {
-            x < 0 || x >= maxX || y < 0 || y >= maxY || heightMapPoints[x][y].visited || heightMapPoints[x][y].value == 9 -> 0
-            else -> {
+        fun countPointsInBasin(x: Int, y: Int): Int =
+            if (x < 0 || x >= maxX || y < 0 || y >= maxY || heightMapPoints[x][y].visited || heightMapPoints[x][y].value == 9) 0
+            else {
                 heightMapPoints[x][y].visited = true
-                1 + basins(x - 1, y) + basins(x + 1, y) + basins(x, y - 1) + basins(x, y + 1)
+                1 + countPointsInBasin(x - 1, y) + countPointsInBasin(x + 1, y) + countPointsInBasin(x, y - 1) + countPointsInBasin(x, y + 1)
             }
-        }
 
         return heightMapPoints
             .asSequence()
             .flatten()
             .mapNotNull { (x, y, value, visited) ->
                 if (visited || value == 9) null
-                else basins(x, y)
+                else countPointsInBasin(x, y)
             }
             .sortedDescending()
             .take(3)
