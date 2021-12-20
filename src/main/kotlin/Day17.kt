@@ -22,12 +22,8 @@ fun main(args: Array<String>) {
     val rangeX = rangeXString.removePrefix("x=").split("..").let { IntRange(it[0].toInt(), it[1].toInt()) }
     val rangeY = rangeYString.removePrefix("y=").split("..").let { IntRange(it[0].toInt(), it[1].toInt()) }
 
-    for (y in 0 downTo rangeY.first) for (x in 0..rangeX.last) {
-//        println("==============Launched at $x,$y==============")
-        showProbePath(Probe.launch(x, y, rangeX, rangeY))
-    }
-    for (y in 0..abs(rangeY.first)) for (x in 0..rangeX.last) {
-//        println("==============Launched at $x,$y==============")
+    for (x in 0..rangeX.last) for (y in rangeY.first .. abs(rangeY.first))  {
+        println("==============Launched at $x,$y==============")
         showProbePath(Probe.launch(x, y, rangeX, rangeY))
     }
 
